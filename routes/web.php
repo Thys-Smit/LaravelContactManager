@@ -20,6 +20,11 @@
 // PUT     /users/{user}               update  users.update
 // DELETE  /users/{user}               destroy users.destroy
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 Route::prefix('api/v1')->group(function() {
 
     Route::resource('users', 'UsersController', [

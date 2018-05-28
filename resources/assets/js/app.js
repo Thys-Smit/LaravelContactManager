@@ -1,22 +1,24 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import App from './components/App.vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import contactsStore from './store/contactsStore'
+import routes from './routes'
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+Vue.use(Vuetify)
+Vue.use(VueRouter)
 
-require('./bootstrap');
+const router = new VueRouter({
+  routes
+})
 
-window.Vue = require('vue');
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
-const app = new Vue({
-    el: '#app'
-});
+// Create and Setup Vue Instance
+new Vue({
+  el: '#app',
+  render: h => h(App),
+  router,
+  store: contactsStore,
+})

@@ -16,11 +16,11 @@
         <v-toolbar-title class="justify-center layout ml-0">
           <v-list>
             <v-list-tile style="height:60px; padding-top:5px" v-if="!miniVariant">
-              <!-- <img style="max-height: 90%;"  src="./assets/Britehouse_Web.gif" alt="Britehouse" @click="logoClicked()"> -->
+              <v-list-tile-title class="title">Contact Manager</v-list-tile-title>
             </v-list-tile>
             <v-list-tile avatar v-else>
-              <v-list-tile-avatar tile size="50">
-                <!-- <img src="./assets/Britehouse_Icon.gif" alt="Britehouse"> -->
+              <v-list-tile-avatar tile size="50" color="teal">
+                <span class="white--text headline">C</span>
               </v-list-tile-avatar>
             </v-list-tile>
         </v-list>
@@ -59,7 +59,7 @@
       <v-btn class="hidden-md-and-down" icon @click.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
-      <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
+      <v-toolbar-title>{{ pageName }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>perm_identity</v-icon>
@@ -74,7 +74,7 @@
               <v-icon large>account_circle</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>Britehouse User</v-list-tile-title>
+              <v-list-tile-title>Billow User</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider></v-divider>
@@ -110,44 +110,44 @@
       app
     >
       <v-list two-line>
-        <template v-for="(detail,i) in contactDetails">
-        <v-list-tile :key="i+5">
+        <template v-if="details">
+        <v-list-tile >
             <v-list-tile-title class="justify-center layout title">Contact Details</v-list-tile-title>
         </v-list-tile>
-        <v-divider :key="i+6"></v-divider>
-        <v-list-tile :key="i+1">
+        <v-divider ></v-divider>
+        <v-list-tile >
           <v-list-tile-action>
             <v-icon>perm_identity</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ detail.name }}</v-list-tile-title>
+            <v-list-tile-title>{{ details.name }}</v-list-tile-title>
             <v-list-tile-sub-title class="caption">Name</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile :key="i+2">
+        <v-list-tile>
            <v-list-tile-action>
             <v-icon>perm_identity</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>{{ detail.surname }}</v-list-tile-title>
+            <v-list-tile-title>{{ details.surname }}</v-list-tile-title>
             <v-list-tile-sub-title class="caption">Surname</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile :key="i+3">
+        <v-list-tile >
            <v-list-tile-action>
             <v-icon>phone</v-icon>
           </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ detail.cellnumber }}</v-list-tile-title>
+          <v-list-tile-title>{{ details.cellnumber }}</v-list-tile-title>
           <v-list-tile-sub-title class="caption">Mobile</v-list-tile-sub-title>
         </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile :key="i+4">
+        <v-list-tile >
            <v-list-tile-action>
             <v-icon>phone</v-icon>
           </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>{{ detail.worknumber ? detail.worknumber : '_'}}</v-list-tile-title>
+          <v-list-tile-title>{{ details.worknumber ? details.worknumber : '_'}}</v-list-tile-title>
           <v-list-tile-sub-title class="caption">Work</v-list-tile-sub-title>
         </v-list-tile-content>
         </v-list-tile>
@@ -175,6 +175,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'App',
     data () {
@@ -239,14 +241,15 @@
     },
 
     computed: {
+      ...mapState(['pageTitle', 'contactDetails']),
       showBtn(){
         return this.$route.path !== '/contacts' ? true : false
       },
-      pageTitle(){
-        return this.$store.state.pageTitle
+      pageName(){
+        return this.pageTitle
       },
-      contactDetails(){
-        return this.$store.state.contactDetails
+      details(){
+        return this.contactDetails
       }
     },
 

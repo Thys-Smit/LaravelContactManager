@@ -45,7 +45,7 @@
         
 
         <!-- Form Dialog -->
-        <v-layout v-if="dialog" row justify-center>
+        <v-layout v-if="dialogVisible" row justify-center>
           <v-dialog v-model="dialog" persistent max-width="500px">
             <v-card>
               <v-card-title>
@@ -86,7 +86,7 @@
 </template>
 
 <script>  
-  import Axios from 'axios'
+  import { mapState } from 'vuex'
 
   export default {
     data () {
@@ -147,8 +147,15 @@
     },
 
     computed: {
+      ...mapState(['contactList', 'showDialog']),
       contactListData(){
-        return this.$store.state.contactList.length > 0 ? this.$store.state.contactList : []
+        console.log(this.contactList)
+        // return this.contactList.length > 0 ? this.contactList : []
+        return this.contactList
+      },
+      dialogVisible(){
+        this.dialog = this.showDialog
+        return this.showDialog
       }
     },
 
@@ -157,23 +164,7 @@
     },
 
     created(){
-      this.$store.watch(
-        function (state) {
-            return state.showDialog;
-        },
-        () => {
-            this.dialog = this.$store.state.showDialog
-        }
-      )
 
-      this.$store.watch(
-        function (state) {
-            return state.contactList;
-        },
-        () => {
-            this.contacts = this.$store.state.contactList
-        }
-      )
     }
 
   }

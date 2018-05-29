@@ -18,7 +18,7 @@ class CreateContactsTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('cellnumber');
-            $table->string('worknumber');
+            $table->string('worknumber')->nullable();
             $table->integer('fkUserId')->unsigned();
             $table->foreign('fkUserId')->references('id')->on('users');
             $table->timestamps();

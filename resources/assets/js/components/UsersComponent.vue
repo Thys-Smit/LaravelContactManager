@@ -5,7 +5,7 @@
 
         <!-- User List -->
         <v-list class="elevation-0">
-          <v-list-tile v-for="(user) in userList" :key="user.id" avatar @click="showUserContacts(user)">
+          <v-list-tile v-for="user in users" :key="user.id" avatar @click="showUserContacts(user)">
             <v-list-tile-avatar size="38" color="teal">
               <span class="white--text headline">{{ user.name.substr(0,1) }}</span>
             </v-list-tile-avatar>
@@ -22,7 +22,7 @@
 
 
         <!-- Form Dialog -->
-        <v-layout v-if="dialog" row justify-center>
+        <v-layout v-if="dialogVisible" row justify-center>
           <v-dialog v-model="dialog" persistent max-width="500px">
             <v-card>
               <v-card-title>
@@ -56,7 +56,7 @@
 </template>
 
 <script>  
-  import Axios from 'axios'
+  import { mapState } from 'vuex'
 
   export default {
     data () {
@@ -79,7 +79,6 @@
             align: 'right',
           },
         ],
-        users: [],
         rules: {
           required: (value) => !!value || 'Required.',
           number: (value) => {
@@ -118,11 +117,13 @@
     },
 
     computed: {
-      pageTitle(){
-        return this.$store.state.pageTitle
+      ...mapState(['userList', 'showDialog']),
+      users(){
+        return this.userList
       },
-      userList(){
-        return this.$store.state.userList
+      dialogVisible(){
+        this.dialog = this.showDialog
+        return this.showDialog
       }
     },
 
@@ -131,15 +132,15 @@
     },
 
     created(){
-      this.$store.watch(
-        function (state) {
-            return state.showDialog;
-        },
-        () => {
-            this.dialog = this.$store.state.showDialog
-        }
-      )
-    }
+    //   this.$store.watch(
+    //     function (state) {
+    //         return state.showDialog;
+    //     },
+    //     () => {
+    //         this.dialog = this.$store.state.showDialog
+    //     }
+    //   )
+     }
 
   }
 </script>

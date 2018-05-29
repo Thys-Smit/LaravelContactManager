@@ -4,6 +4,8 @@ import Axios from 'axios'
 
 Vue.use(Vuex);
 
+var baseUri = '/api/v1' 
+
 const contactsStore = new Vuex.Store({
 
     state: {
@@ -45,7 +47,7 @@ const contactsStore = new Vuex.Store({
         getAllUsers({commit, state}){
         Axios({
             //url: 'http://34.242.35.162:3000/api/v1/users/all',
-            url: '/api/v1/users',
+            url: `${baseUri}/users`,
             method: 'GET'
         }).then((response) => {
             console.log(response)
@@ -59,21 +61,7 @@ const contactsStore = new Vuex.Store({
         getUserContactList({commit, state}){
         Axios({
             //url: `http://34.242.35.162:3000/api/v1/contacts/user/${state.currentUserId}/all`,
-            url: `/api/v1/contacts/user/${state.currentUserId}`,
-            method: 'GET'
-        }).then((response) => {
-            console.log(response)
-            commit('updateContactList', response.data.recordset)
-        }).catch((err) => {
-            alert(err)
-            console.log(err);
-        })
-        },
-
-        getAllContacts({commit,state}){
-        Axios({
-            //url: 'http://34.242.35.162:3000/api/v1/contacts/all',
-            url: '/api/v1/contacts',
+            url: `${baseUri}/contacts/user/${state.currentUserId}`,
             method: 'GET'
         }).then((response) => {
             console.log(response)
@@ -84,10 +72,24 @@ const contactsStore = new Vuex.Store({
         })
         },
 
+        getAllContacts({commit,state}){
+        Axios({
+            //url: 'http://34.242.35.162:3000/api/v1/contacts/all',
+            url: `${baseUri}/contacts`,
+            method: 'GET'
+        }).then((response) => {
+            console.log(response.name)
+            commit('updateContactList', response.data)
+        }).catch((err) => {
+            alert(err)
+            console.log(err);
+        })
+        },
+
         getContactDetails({commit,state}, payload){
         Axios({
             //url: `http://34.242.35.162:3000/api/v1/contacts/details/${payload}`,
-            url: `/api/v1/contacts/${payload}`,
+            url: `${baseUri}/contacts/${payload}`,
             method: 'GET'
         }).then((response) => {
             console.log(response)
@@ -101,7 +103,7 @@ const contactsStore = new Vuex.Store({
         insertUser({commit,state,dispatch}, payload){
         Axios({
             //url: 'http://34.242.35.162:3000/api/v1/users/add',
-            url: '/api/v1/users',
+            url: `${baseUri}/users`,
             method: 'POST',
             data: {
                 name: payload.name,
@@ -142,7 +144,7 @@ const contactsStore = new Vuex.Store({
         deleteContact({commit,state,dispatch}, payload){
         Axios({
             //url: `http://34.242.35.162:3000/api/v1/contacts/delete/${payload}`,
-            url: `/api/v1/contacts/${payload}`,
+            url: `${baseUri}/contacts/${payload}`,
             method: 'DELETE',
         }).then((response) => {
             console.log(response)
@@ -156,7 +158,7 @@ const contactsStore = new Vuex.Store({
         deleteUser({commit,state,dispatch}, payload){
         Axios({
             //url: `http://34.242.35.162:3000/api/v1/users/${payload}/delete`,
-            url: `/api/v1/users/${payload}`,
+            url: `${baseUri}/users/${payload}`,
             method: 'DELETE',
         }).then((response) => {
             console.log(response)
